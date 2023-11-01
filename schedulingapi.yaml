@@ -1,13 +1,16 @@
 openapi: 3.1.0
 info:
+  x-logo:
+    url: https://framerusercontent.com/images/LHK1qFFt5HwSHLgF6P0xlrkBD8.png
+    backgroundColor: "#0d111d"
   title: "Scheduling API"
   version: "1.0.0"
   contact:
     name: Support
     email: support@waldeck.io
-    url: https://www.schedulingapi.com
+    url: https://www.schedulingapi.io
 servers:
-  - url: https://api.schedulingapi.com/v1
+  - url: https://api.schedulingapi.io/v1
 paths:
   /tasks:
     post:

@@ -1,0 +1,21 @@
+components:
+  responses:
+    '400':
+      description: Bad request
+      content:
+        application/problem+json:
+          schema:
+            type: object
+            properties:
+              title:
+                type: string
+                example: Request validation failed
+              invalidParams:
+                type: object
+                properties:
+                  name:
+                    type: string
+                    example: callbackUrl
+                  reason:
+                    type: string
+                    example: Invalid URI format

@@ -1,5 +1,8 @@
 openapi: 3.1.0
 info:
+  x-logo:
+    url: https://framerusercontent.com/images/yQVsnN5mU6YyAcTFn6CofIO8Fsw.png
+    backgroundColor: "#0d111d"
   title: "Incoming email API"
   version: "1.0.0"
   contact:
@@ -88,7 +91,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/singleInboxResponse'
         '400':
-          $ref: '#/components/responses/400'
+          $ref: './components.yaml#/components/responses/400'
       requestBody:
         required: true
         content:
@@ -108,26 +111,6 @@ paths:
                   format: uri
                   description: URL invoked when a new email has been sent to this inbox. Overrides domain's `callbackURL`.
 components:
-  responses:
-    '400':
-      description: Bad request
-      content:
-        application/problem+json:
-          schema:
-            type: object
-            properties:
-              title:
-                type: string
-                example: Request validation failed
-              invalidParams:
-                type: object
-                properties:
-                  name:
-                    type: string
-                    example: callbackUrl
-                  reason:
-                    type: string
-                    example: Invalid URI format
   schemas:
     singleInboxResponse:
       type: object
