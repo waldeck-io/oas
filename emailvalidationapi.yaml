@@ -1,0 +1,130 @@
+openapi: 3.1.0
+info:
+  title: "Email validation API"
+  version: "1.0.0"
+  contact:
+    name: Support
+    email: support@waldeck.io
+    url: https://www.emailvalidationapi.io
+servers:
+  - url: https://api.emailvalidationapi.io/v1
+paths:
+  /validate:
+    post:
+      responses:
+        '400':
+          $ref: '#/components/responses/400'
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/singleEmailResponse'
+      summary: Validate single e-mailaddress
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  format: email
+  /batch-validate:
+    post:
+      responses:
+        '200':
+          description: OK
+          content:
+            'application/json':
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/singleEmailResponse'
+        '202':
+          description: A `callbackUrl` has been provided, and the request has been accepted. The actual response will be sent once the validation of all emails has been finished.
+          content:
+            'application/json':
+              schema:
+                type: object
+                properties:
+                  callbackUrl:
+                    type: string
+                    format: uri
+                    description: The `callbackUrl` provided.
+        '400':
+          $ref: '#/components/responses/400'
+        '408':
+          description: Request timed out after 10 seconds. Please consider using `callbackUrl` to avoid this.
+      summary: Batch validate multiple e-mailaddresses
+      callbacks:
+        myCallback:
+          '$request.body#/callbackUrl':
+            post:
+              summary: Batch validation completed
+              description: Payload of the asynchronous response sent to `callbackUrl` once all emails have been validated.
+              requestBody:
+                content:
+                  'application/json':
+                    schema:
+                      type: array
+                      items:
+                        $ref: '#/components/schemas/singleEmailResponse'
+              responses:
+                '200':
+                  description: Please respond with HTTP status code `200` so we know the callback has been delivered successfully.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: emails
+              properties:
+                emails:
+                  type: array
+                  description: Array of all emails that have to be validated.
+                  items:
+                    type: string
+                    format: email
+                callbackUrl:
+                  type: string
+                  format: uri
+                  description: URL we will send the response to once the validation of all emails has been finished (see the callback below for more details). If not provided, we will validate the emails realtime with the risk of hitting the timeout limit of 10 seconds.
+components:
+  responses:
+    '400':
+      description: Bad request
+      content:
+        application/problem+json:
+          schema:
+            type: object
+            properties:
+              title:
+                type: string
+                example: Request validation failed
+              invalidParams:
+                type: object
+                properties:
+                  name:
+                    type: string
+                    example: callbackUrl
+                  reason:
+                    type: string
+                    example: Invalid URI format
+  schemas:
+    singleEmailResponse:
+      type: object
+      required:
+        - email
+        - valid
+      properties:
+        email:
+          type: string
+          format: email
+        valid:
+          type: boolean
+        reason:
+          type: string
+          description: Only available if the email is invalid.
