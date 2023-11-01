@@ -1,0 +1,51 @@
+openapi: 3.1.0
+info:
+  title: "Mocking API"
+  version: "1.0.0"
+  contact:
+    name: Support
+    email: support@waldeck.io
+    url: https://www.mockingapi.com
+servers:
+  - url: https://api.mockingapi.com/v1
+paths:
+  /data:
+    get:
+      summary: Get data
+      responses:
+        '200': 
+          description: OK
+          content:
+            'application/json':
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/singleMessageResponse'
+components:
+  responses:
+    '400':
+      description: Bad request
+      content:
+        application/problem+json:
+          schema:
+            type: object
+            properties:
+              title:
+                type: string
+                example: Request validation failed
+              invalidParams:
+                type: object
+                properties:
+                  name:
+                    type: string
+                    example: callbackUrl
+                  reason:
+                    type: string
+                    example: Invalid URI format
+  schemas:
+    singleMessageResponse:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
