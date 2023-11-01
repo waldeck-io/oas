@@ -19,3 +19,5 @@ components:
                   reason:
                     type: string
                     example: Invalid URI format
+    '404':
+      description: Not found

@@ -16,7 +16,7 @@ paths:
     post:
       responses:
         '400':
-          $ref: '#/components/responses/400'
+          $ref: './components.yaml#/components/responses/400'
         '200':
           description: OK
           content:
@@ -57,7 +57,7 @@ paths:
                     format: uri
                     description: The `callbackUrl` provided.
         '400':
-          $ref: '#/components/responses/400'
+          $ref: './components.yaml#/components/responses/400'
         '408':
           description: Request timed out after 10 seconds. Please consider using `callbackUrl` to avoid this.
       summary: Batch validate multiple e-mailaddresses
@@ -96,26 +96,6 @@ paths:
                   format: uri
                   description: URL we will send the response to once the validation of all emails has been finished (see the callback below for more details). If not provided, we will validate the emails realtime with the risk of hitting the timeout limit of 10 seconds.
 components:
-  responses:
-    '400':
-      description: Bad request
-      content:
-        application/problem+json:
-          schema:
-            type: object
-            properties:
-              title:
-                type: string
-                example: Request validation failed
-              invalidParams:
-                type: object
-                properties:
-                  name:
-                    type: string
-                    example: callbackUrl
-                  reason:
-                    type: string
-                    example: Invalid URI format
   schemas:
     singleEmailResponse:
       type: object

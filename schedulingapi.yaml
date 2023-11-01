@@ -17,7 +17,7 @@ paths:
       summary: Create new task
       responses:
         '400':
-          $ref: '#/components/responses/400'
+          $ref: './components.yaml#/components/responses/400'
         '201':
           description: Created
           content:
@@ -51,27 +51,9 @@ paths:
             'application/json':
               schema:
                 $ref: '#/components/schemas/singleTaskResponse' 
+        '404':
+          $ref: './components.yaml#/components/responses/404'
 components:
-  responses:
-    '400':
-      description: Bad request
-      content:
-        application/problem+json:
-          schema:
-            type: object
-            properties:
-              title:
-                type: string
-                example: Request validation failed
-              invalidParams:
-                type: object
-                properties:
-                  name:
-                    type: string
-                    example: callbackUrl
-                  reason:
-                    type: string
-                    example: Invalid URI format
   schemas:
     createTask:
       type: object
