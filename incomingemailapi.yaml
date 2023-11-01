@@ -59,16 +59,7 @@ paths:
         content:
           application/json:
             schema:
-              type: object
-              properties:
-                domain:
-                  type: string
-                  description: The domain of the inbox, the part after the `local-part@` of the e-mailaddress.
-                  example: example.com
-                callbackUrl:
-                  type: string
-                  format: uri
-                  description: URL invoked when a new email has been sent to this domain.
+              $ref: '#/components/schemas/createDomain' 
     get:
       tags: [Custom domains]
       summary: Retreive domains
@@ -80,7 +71,25 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/singleDomainResponse' 
+                  $ref: '#/components/schemas/singleDomainResponse'
+  /domains/{id}:
+    get:
+      tags: [Custom domains]
+      summary: Retreive single domain
+      responses:
+        '200': 
+          content:
+            'application/json':
+              schema:
+                $ref: '#/components/schemas/singleDomainResponse'
+    delete:
+      tags: [Custom domains]
+      summary: Remove domain
+      responses:
+        '204': 
+          $ref: './components.yaml#/components/responses/204'
+        '404':
+          $ref: './components.yaml#/components/responses/404'
   /inbox:
     post:
       tags: [Inbox]
@@ -99,52 +108,82 @@ paths:
         content:
           application/json:
             schema:
-              type: object
-              properties:
-                localPart:
-                  type: string
-                  description: The local-part of the inbox, the part before the `@domain` of the e-mailaddress. If not provided, we will generate it instead.
-                domain:
-                  type: string
-                  description: The domain of the inbox, the part after the `local-part@` of the e-mailaddress. Needs to match with one of your validated domains.
-                  example: example.com
-                callbackUrl:
-                  type: string
-                  format: uri
-                  description: URL invoked when a new email has been sent to this inbox. Overrides domain's `callbackURL`.
+              $ref: '#/components/schemas/createInbox'
+  /inbox{id}:
+    get:
+      tags: [Inbox]
+      summary: Retreive single inbox
+      responses:
+        '200':
+          description: OK
+          content:
+            'application/json':
+              schema:
+                $ref: '#/components/schemas/singleInboxResponse'
+        '404':
+          $ref: './components.yaml#/components/responses/404'
+    delete:
+      tags: [Inbox]
+      summary: Remove inbox
+      responses:
+        '204':
+          $ref: './components.yaml#/components/responses/204'
+        '404':
+          $ref: './components.yaml#/components/responses/404'
 components:
   schemas:
-    singleInboxResponse:
+    createInbox:
       type: object
       properties:
         localPart:
           type: string
-          example: user
+          description: The local-part of the inbox, the part before the `@domain` of the e-mailaddress. If not provided, we will generate it instead.
+          example: account-639
         domain:
           type: string
-          example: example.com
+          description: The domain of the inbox, the part after the `local-part@` of the e-mailaddress. Needs to match with one of your validated domains.
+          example: finance.acme.com
         callbackUrl:
           type: string
           format: uri
           description: URL invoked when a new email has been sent to this inbox. Overrides domain's `callbackURL`.
+          example: https://api.acme.com/handle-new-email
+    singleInboxResponse:
+      allOf:
+        - type: object
+          properties:
+            id:
+              type: string
+              format: uuid
+        - $ref: '#/components/schemas/createInbox'
     singleDomainResponse:
+      allOf:
+        - type: object
+          properties:
+            id:
+              type: string
+              format: uuid
+            valid:
+              type: boolean
+              example: false
+            mxRecords:
+              type: array
+              example: ['23.123.123.43', '36.631.34.45']
+              items:
+                type: string
+        - $ref: '#/components/schemas/createDomain'
+    createDomain:
       type: object
       properties:
         domain:
           type: string
-          example: example.com
-        valid:
-          type: boolean
-          example: false
-        mxRecords:
-          type: array
-          example: ['23.123.123.43', '36.631.34.45']
-          items:
-            type: string
+          description: The domain of the inbox, the part after the `local-part@` of the e-mailaddress.
+          example: finance.acme.com
         callbackUrl:
           type: string
           format: uri
           description: URL invoked when a new email has been sent to this domain.
+          example: https://api.acme.com/handle-new-email
           
   securitySchemes:
     ApiKey:

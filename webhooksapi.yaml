@@ -102,6 +102,13 @@ paths:
                 $ref: '#/components/schemas/singleApplicationResponse'
         '404':
           $ref: './components.yaml#/components/responses/404'
+    delete:
+      tags: [Applications]
+      summary: Remove application
+      responses:
+        allOf:
+        - $ref: './components.yaml#/components/responses/204'
+        - $ref: './components.yaml#/components/responses/404'
 components:
   schemas:
     createMessage:
