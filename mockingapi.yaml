@@ -11,6 +11,8 @@ info:
     url: https://www.mockingapi.com
 servers:
   - url: https://api.mockingapi.com/v1
+security:
+  - ApiKey: []
 paths:
   /data:
     get:
@@ -32,3 +34,9 @@ components:
         id:
           type: string
           format: uuid
+          
+  securitySchemes:
+    ApiKey:
+      type: apiKey
+      in: header
+      name: X-Api-Key

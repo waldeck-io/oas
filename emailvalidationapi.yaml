@@ -11,6 +11,8 @@ info:
     url: https://www.emailvalidationapi.io
 servers:
   - url: https://api.emailvalidationapi.io/v1
+security:
+  - ApiKey: []
 paths:
   /validate:
     post:
@@ -111,3 +113,9 @@ components:
         reason:
           type: string
           description: Only available if the email is invalid.
+
+  securitySchemes:
+    ApiKey:
+      type: apiKey
+      in: header
+      name: X-Api-Key

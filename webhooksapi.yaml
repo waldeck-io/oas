@@ -11,6 +11,8 @@ info:
     url: https://www.webhooksapi.io
 servers:
   - url: https://api.schedulingapi.io/v1
+security:
+  - ApiKey: []
 paths:
   /messages:
     post:
@@ -143,3 +145,9 @@ components:
           type: string
         uid:
           type: string
+
+  securitySchemes:
+    ApiKey:
+      type: apiKey
+      in: header
+      name: X-Api-Key

@@ -11,6 +11,8 @@ info:
     url: https://www.schedulingapi.io
 servers:
   - url: https://api.schedulingapi.io/v1
+security:
+  - ApiKey: []
 paths:
   /tasks:
     post:
@@ -137,3 +139,9 @@ components:
             type: integer
             minimum: 1
             maximum: 31
+
+  securitySchemes:
+    ApiKey:
+      type: apiKey
+      in: header
+      name: X-Api-Key

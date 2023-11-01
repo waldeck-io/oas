@@ -11,6 +11,8 @@ info:
     url: https://www.incomingemailapi.com
 servers:
   - url: https://api.incomingemailapi.com/v1
+security:
+  - ApiKey: []
 tags:
   - name: Inbox
   - name: Custom domains
@@ -143,3 +145,9 @@ components:
           type: string
           format: uri
           description: URL invoked when a new email has been sent to this domain.
+          
+  securitySchemes:
+    ApiKey:
+      type: apiKey
+      in: header
+      name: X-Api-Key
