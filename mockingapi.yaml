@@ -13,27 +13,97 @@ servers:
 security:
   - ApiKey: []
 paths:
-  /data:
+  /data/{type}:
+    parameters:
+      - in: path
+        name: type
+        schema:
+          type: string
+          example: firstName
+        required: true
+        description: Type of data.
+      - in: query
+        name: locale
+        schema:
+          type: string
+        required: false
+        description: Country locale code. Supported codes are those listed in the BCP 47 Language Tags, e.g. `en-GB`
+      - in: query
+        name: amount
+        schema:
+          type: integer
+          maximum: 500
+          default: 100
+        required: false
+        description: Number of values to generate.
     get:
-      summary: Get data
+      summary: Generate array of values
       responses:
-        '200': 
+        "200":
           description: OK
           content:
-            'application/json':
+            "application/json":
+              schema:
+                type: array
+                example: [John, Colin, Hank]
+                items:
+                  type: string
+                  example: John
+        "400":
+          $ref: "./components.yaml#/components/responses/400"
+        "404":
+          $ref: "./components.yaml#/components/responses/404"
+  /data:
+    parameters:
+      - in: query
+        name: locale
+        schema:
+          type: string
+        required: false
+        description: Country locale code. Supported codes are those listed in the BCP 47 Language Tags, e.g. `en-GB`
+      - in: query
+        name: amount
+        schema:
+          type: integer
+          maximum: 500
+          default: 100
+        required: false
+        description: Number of values to generate.
+    post:
+      summary: Generate complex objects
+      responses:
+        "200":
+          description: OK
+          content:
+            "application/json":
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/singleMessageResponse'
+                  $ref: "#/components/schemas/singleMessageResponse"
+        "400":
+          $ref: "./components.yaml#/components/responses/400"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/generateData"
 components:
   schemas:
     singleMessageResponse:
       type: object
-      properties:
-        id:
-          type: string
-          format: uuid
-          
+      example: { id: uuid, firstName: John, lastName: Smith, job: Accountant, birthPlace: New York }
+    generateData:
+      type: object
+      example:
+        {
+          id: uuid,
+          firstName: firstName,
+          lastName: lastName,
+          job: job,
+          birthPlace: place,
+        }
+
   securitySchemes:
     ApiKey:
       type: apiKey
