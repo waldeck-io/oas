@@ -1,8 +1,7 @@
 openapi: 3.1.0
 info:
   x-logo:
-    url: https://framerusercontent.com/images/StkBHt6iT1ueZC13e8u8YpHFgY.png
-    backgroundColor: "#0d111d"
+    url: https://docs.emailvalidationapi.io/logo.png
   title: "Email validation API"
   version: "1.0.0"
   contact:

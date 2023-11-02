@@ -1,8 +1,7 @@
 openapi: 3.1.0
 info:
   x-logo:
-    url: https://framerusercontent.com/images/kel2KvBPGRUmMkEiyMGxjoYE.png
-    backgroundColor: "#0d111d"
+    url: https://docs.mockingapi.com/logo.png
   title: "Mocking API"
   version: "1.0.0"
   contact:

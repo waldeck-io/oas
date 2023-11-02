@@ -1,8 +1,7 @@
 openapi: 3.1.0
 info:
   x-logo:
-    url: https://framerusercontent.com/images/yQVsnN5mU6YyAcTFn6CofIO8Fsw.png
-    backgroundColor: "#0d111d"
+    url: https://docs.incomingemailapi.com/logo.png
   title: "Incoming email API"
   version: "1.0.0"
   contact:

@@ -1,8 +1,7 @@
 openapi: 3.1.0
 info:
   x-logo:
-    url: https://framerusercontent.com/images/LHK1qFFt5HwSHLgF6P0xlrkBD8.png
-    backgroundColor: "#0d111d"
+    url: https://docs.schedulingapi.io/logo.png
   title: "Scheduling API"
   version: "1.0.0"
   contact:

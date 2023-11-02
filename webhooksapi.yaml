@@ -1,8 +1,7 @@
 openapi: 3.1.0
 info:
   x-logo:
-    url: https://framerusercontent.com/images/3o8HSQlXBbnTZb6010drS8F9cU.png
-    backgroundColor: "#0d111d"
+    url: https://docs.webhooksapi.io/logo.png
   title: "Webhooks API"
   version: "1.0.0"
   contact:
