@@ -70,7 +70,7 @@ paths:
         required: false
         description: Number of values to generate.
     post:
-      summary: Generate complex objects
+      summary: Generate array of objects
       responses:
         "200":
           description: OK
@@ -79,7 +79,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: "#/components/schemas/singleMessageResponse"
+                  $ref: "#/components/schemas/generatedData"
         "400":
           $ref: "./components.yaml#/components/responses/400"
       requestBody:
@@ -90,18 +90,21 @@ paths:
               $ref: "#/components/schemas/generateData"
 components:
   schemas:
-    singleMessageResponse:
+    generatedData:
       type: object
-      example: { id: uuid, firstName: John, lastName: Smith, job: Accountant, birthPlace: New York }
+      example: { firstName: Anna, lastName: Henderson, job: Frontend developer, x: annah, email: anna@techlabs.com, telephone: +1 (917) 528-2623, links: https://techlabs.com/anna, country: United States }
     generateData:
       type: object
       example:
         {
-          id: uuid,
           firstName: firstName,
           lastName: lastName,
-          job: job,
-          birthPlace: place,
+          job: jobTitle,
+          x: twitterHandle,
+          email: emailAddress,
+          telephone: phoneNumber,
+          link: url,
+          country: country
         }
 
   securitySchemes:
