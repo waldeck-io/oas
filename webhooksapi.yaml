@@ -6,7 +6,7 @@ info:
   version: "1.0.0"
   contact:
     name: Support
-    email: support@waldeck.io
+    email: support@webhooksapi.io
     url: https://www.webhooksapi.io
 servers:
   - url: https://api.schedulingapi.io/v1

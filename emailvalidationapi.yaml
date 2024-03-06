@@ -2,11 +2,11 @@ openapi: 3.1.0
 info:
   x-logo:
     url: https://docs.emailvalidationapi.io/logo.png
-  title: "Email validation API"
+  title: "Email Validation API"
   version: "1.0.0"
   contact:
     name: Support
-    email: support@waldeck.io
+    email: support@emailvalidationapi.io
     url: https://www.emailvalidationapi.io
 servers:
   - url: https://api.emailvalidationapi.io/v1

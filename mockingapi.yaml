@@ -6,7 +6,7 @@ info:
   version: "1.0.0"
   contact:
     name: Support
-    email: support@waldeck.io
+    email: support@mockingapi.com
     url: https://www.mockingapi.com
 servers:
   - url: https://api.mockingapi.com/v1

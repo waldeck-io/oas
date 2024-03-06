@@ -6,7 +6,7 @@ info:
   version: "1.0.0"
   contact:
     name: Support
-    email: support@waldeck.io
+    email: support@schedulingapi.io
     url: https://www.schedulingapi.io
 servers:
   - url: https://api.schedulingapi.io/v1
@@ -72,9 +72,6 @@ components:
         executeAt:
           type: string
           format: date-time
-        url:
-          type: string
-          format: uri
         request:
           $ref: '#/components/schemas/request'
         recurringSchedule:
@@ -93,9 +90,6 @@ components:
         lastExecution:
           type: string
           format: date-time
-        url:
-          type: string
-          format: uri
         request:
           $ref: '#/components/schemas/request'
         recurringSchedule:
@@ -139,6 +133,9 @@ components:
     request:
       type: object
       properties:
+        url:
+          type: string
+          format: uri
         method:
           type: string
           enum: [GET, POST, OPTIONS, HEAD, PUT, DELETE, TRACE, CONNECT, PATCH]
@@ -147,7 +144,6 @@ components:
         headers:
           type: object
           example: {'key': 'value'}
-
 
   securitySchemes:
     ApiKey:

@@ -6,7 +6,7 @@ info:
   version: "1.0.0"
   contact:
     name: Support
-    email: support@waldeck.io
+    email: support@incomingemailapi.com
     url: https://www.incomingemailapi.com
 servers:
   - url: https://api.incomingemailapi.com/v1
