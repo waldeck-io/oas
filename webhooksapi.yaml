@@ -9,7 +9,7 @@ info:
     email: support@webhooksapi.io
     url: https://www.webhooksapi.io
 servers:
-  - url: https://api.schedulingapi.io/v1
+  - url: https://api.webhooksapi.io/v1
 security:
   - ApiKey: []
 paths:
