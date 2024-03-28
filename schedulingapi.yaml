@@ -3,6 +3,19 @@ info:
   x-logo:
     url: https://docs.schedulingapi.io/logo.png
   title: "Scheduling API"
+  description: |
+    To make a request to the API you need to add the provided API key via the `X-Api-Key` request header. Using CURL, the command looks like:
+    
+    ```bash
+    curl -X GET -H "X-Api-Key: API_KEY" ENDPOINT
+    ```
+
+    Replace **API_KEY** with your actual API key and **ENDPOINT** with the URL of the API endpoint you want to access.
+
+    For example, if your API key is `0BE9F8UpT73VZFZYvtPSH5h5TolA9nTL6HgaPQC3`, the CURL command to get all tasks should look like this:
+    ```bash
+    curl -X GET -H "X-Api-Key: 0BE9F8UpT73VZFZYvtPSH5h5TolA9nTL6HgaPQC3" https://api.schedulingapi.io/v1/tasks
+    ```
   version: "1.0.0"
   contact:
     name: Support
