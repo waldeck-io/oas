@@ -6,19 +6,21 @@ components:
         application/problem+json:
           schema:
             type: object
+            required: [title]
             properties:
               title:
                 type: string
-                example: Request validation failed
+                example: Invalid payload
               invalidParams:
                 type: object
+                required: [name, reason]
                 properties:
                   name:
                     type: string
-                    example: callbackUrl
+                    example: email
                   reason:
                     type: string
-                    example: Invalid URI format
+                    example: Property `email` is required, but it's missing.
     '204':
       description: Removed
     '404':

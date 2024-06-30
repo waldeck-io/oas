@@ -16,7 +16,7 @@ info:
 
     Replace **API_KEY** with your actual API key, **BODY** with the required body and **ENDPOINT** with the URL of the API endpoint you want to access.
 
-    For example, if your API key is `0BE9F8UpT73VZFZYvtPSH5h5TolA9nTL6HgaPQC3`, the CURL command to validate the single e-mailaddress `support@emailvalidationapi.io` should look like this:
+    For example, if your API key is `0BE9F8UpT73VZFZYvtPSH5h5TolA9nTL6HgaPQC3`, the CURL command to validate the single email address `support@emailvalidationapi.io` should look like this:
     ```bash
     curl -X POST \
     -H "Content-Type: application/json" \
@@ -45,17 +45,19 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/singleEmailResponse'
-      summary: Validate single e-mailaddress
+      summary: Validate single email address
       requestBody:
         required: true
         content:
           application/json:
             schema:
+              required: [email]
               type: object
               properties:
                 email:
                   type: string
                   format: email
+                  example: johndoe@gmial.com
   /batch-validate:
     post:
       responses:
@@ -67,56 +69,58 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/singleEmailResponse'
-        '202':
-          description: A `callbackUrl` has been provided, and the request has been accepted. The actual response will be sent once the validation of all emails has been finished.
-          content:
-            'application/json':
-              schema:
-                type: object
-                properties:
-                  callbackUrl:
-                    type: string
-                    format: uri
-                    description: The `callbackUrl` provided.
+        # '202':
+        #   description: A `callbackUrl` has been provided, and the request has been accepted. The actual response will be sent once the validation of all emails has been finished.
+        #   content:
+        #     'application/json':
+        #       schema:
+        #         type: object
+        #         properties:
+        #           callbackUrl:
+        #             type: string
+        #             format: uri
+        #             description: The `callbackUrl` provided.
         '400':
           $ref: './components.yaml#/components/responses/400'
-        '408':
-          description: Request timed out after 10 seconds. Please consider using `callbackUrl` to avoid this.
-      summary: Batch validate multiple e-mailaddresses
-      callbacks:
-        myCallback:
-          '$request.body#/callbackUrl':
-            post:
-              summary: Batch validation completed
-              description: Payload of the asynchronous response sent to `callbackUrl` once all emails have been validated.
-              requestBody:
-                content:
-                  'application/json':
-                    schema:
-                      type: array
-                      items:
-                        $ref: '#/components/schemas/singleEmailResponse'
-              responses:
-                '200':
-                  description: Please respond with HTTP status code `200` so we know the callback has been delivered successfully.
+        '502':
+          description: Request timed out after 10 seconds. Please consider validating less email addresses simultaneously.
+      summary: Batch validate multiple email addresses
+      # callbacks:
+      #   myCallback:
+      #     '$request.body#/callbackUrl':
+      #       post:
+      #         summary: Batch validation completed
+      #         description: Payload of the asynchronous response sent to `callbackUrl` once all emails have been validated.
+      #         requestBody:
+      #           content:
+      #             'application/json':
+      #               schema:
+      #                 type: array
+      #                 items:
+      #                   $ref: '#/components/schemas/singleEmailResponse'
+      #         responses:
+      #           '200':
+      #             description: Please respond with HTTP status code `200` so we know the callback has been delivered successfully.
       requestBody:
         required: true
         content:
           application/json:
             schema:
               type: object
-              required: emails
+              required: [emails]
               properties:
                 emails:
                   type: array
-                  description: Array of all emails that have to be validated.
+                  maxItems: 20
+                  description: Array of all emails that have to be validated. The maximum number of emails that can be validated in a single request is 20.
                   items:
                     type: string
                     format: email
-                callbackUrl:
-                  type: string
-                  format: uri
-                  description: URL we will send the response to once the validation of all emails has been finished (see the callback below for more details). If not provided, we will validate the emails realtime with the risk of hitting the timeout limit of 10 seconds.
+                    example: johndoe@gmial.com
+                # callbackUrl:
+                #   type: string
+                #   format: uri
+                #   description: URL we will send the response to once the validation of all emails has been finished (see the callback below for more details). If not provided, we will validate the emails realtime with the risk of hitting the timeout limit of 10 seconds.
 components:
   schemas:
     singleEmailResponse:
@@ -128,11 +132,19 @@ components:
         email:
           type: string
           format: email
+          example: johndoe@gmial.com
         valid:
           type: boolean
+          example: false
         reason:
           type: string
-          description: Only available if the email is invalid.
+          description: This property is only available if validation has failed.
+          enum: [EMAIL_FORMAT_INVALID, DOMAIN_BLACKLISTED, DOMAIN_NO_MX_RECORDS]
+          example: DOMAIN_BLACKLISTED
+        suggestion:
+          type: string
+          description: This property is only available if validation has failed and a suggestion for a valid email address, like a typo correction, is available. You can use this to suggest a valid email address to the user, like a "Did you mean?" feature.
+          example: johndoe@gmail.com
 
   securitySchemes:
     ApiKey:
